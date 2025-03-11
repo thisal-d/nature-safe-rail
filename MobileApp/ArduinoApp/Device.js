@@ -21,7 +21,7 @@ function Device({ deviceID, isAnimalDetected, location, Distance }) {
             <View style={styles.textContainer}>
                 <Text style={styles.deviceIdText}>ID: {deviceID}</Text>
                 <Text style={styles.deviceIdText}>Location: {location}</Text>
-                <Text style={styles.deviceIdText}>Distance: {Distance}m</Text>
+                <Text style={styles.deviceIdText}>Distance: {Distance}</Text>
                 <Text style={styles.deviceIdText}>
                     Status: {isAnimalDetected ? "Detected" : "Safe"}
                 </Text>

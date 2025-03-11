@@ -5,8 +5,8 @@
 // CONFIGURE DEVICE INFO
 const int DEVICE_ID = 2;
 const String LOCATION = "Anuradhapura";
-const double LATITUDE = 6.925569;
-const double LONGITUDE = 79.967356;
+const double LATITUDE = 8.33183050;
+const double LONGITUDE = 80.40290170;
 
 // WIFI INFO
 const char* SSID = "Redmi Note 11";
@@ -26,9 +26,10 @@ long long int animal_detected_for = 0;
 void sendStatus(){
   // Create HTTP Object
   HTTPClient http;
-  http.begin(SERVER+"/update_status");
+  http.begin(SERVER+"/update_animal_detector_device_status");
   http.addHeader("Content-Type", "application/json");
 
+  // Create Json obj
   String payLoad = "{\"device_id\":\"" + String(DEVICE_ID) + "\","
               + "\"location\":\"" + String(LOCATION) + "\","
               + "\"latitude\":\"" + String(LATITUDE) + "\","
@@ -68,6 +69,7 @@ void loop() {
   int pressure = analogRead(pressureSensorPin);
   Serial.print("Pressure : ");
   Serial.println(pressure);
+  // Map value to 0 to 100
   int mapped_pressure = map(pressure, 4095, 0, 0, 100); // Map pressure 0 to 100
   Serial.print("Pressure (Mapped) : ");
   Serial.println(mapped_pressure);

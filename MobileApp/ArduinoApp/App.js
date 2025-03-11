@@ -9,35 +9,31 @@ import {
 } from 'react-native';
 import Device from './Device';
 
-const SERVER = "http://xxx.xxx.xxx.xxx";
+// Configure device
+const GPS_DEVICE_ID = 2;
+const SERVER = "http://192.168.34.185";
 const PORT_ADDRESS = ':5000';
 const SERVER_URL = SERVER + PORT_ADDRESS;
 
-export default function App() {
-  const [devices, setDevices] = useState([
-    {
-      "device_id": "D001",
-      "location": "Anuradhapura",
-      "is_animal_detected": false
-    },
-    {
-      "device_id": "D002",
-      "location": "Polonnaruwa",
-      "is_animal_detected": false
-    },
-    {
-      "device_id": "D003",
-      "location": "Ampara",
-      "is_animal_detected": false
-    }, {
-      "device_id": "D004",
-      "location": "asdfgh",
-      "is_animal_detected": false
-    },
-  ]);
+// Haversine formula for distance calculation
+const toRadians = (degrees) => degrees * (Math.PI / 180);
+const haversine = (lat1, lon1, lat2, lon2) => {
+    const R = 6371; // Earth radius in km
+    const dLat = toRadians(lat2 - lat1);
+    const dLon = toRadians(lon2 - lon1);
+    const a = Math.sin(dLat / 2) ** 2 + 
+              Math.cos(toRadians(lat1)) * Math.cos(toRadians(lat2)) * 
+              Math.sin(dLon / 2) ** 2;
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c; // Distance in km
+};
 
+export default function App() {
+  const [animalDetectingDevices, setAnimalDetectingDevices] = useState([]);
+  const [gpsDevices, setGpsDevices] = useState([]);
   const [serverConnectionStatus, setServerConnectionStatus] = useState(null);
 
+  // Fetch data with timeout
   const fetchWithTimeout = (url, options, timeout = 2000) => {
     return Promise.race([
       fetch(url, options),
@@ -45,17 +41,27 @@ export default function App() {
     ]);
   };
 
+  // Get data from Flask server
   const fetchStatus = async () => {
     try {
-      const response = await fetchWithTimeout(`${SERVER_URL}/get_status`);
-      const data = await response.json();
-      setDevices(data);
-      setServerConnectionStatus(true);
+      // Get animal detecting device data
+      const animalResponse = await fetchWithTimeout(`${SERVER_URL}/get_animal_detecting_status`);
+      const animalData = await animalResponse.json();
+      console.log(animalData);
+      setAnimalDetectingDevices(animalData);
+
+      // Get gps device data
+      const gpsResponse = await fetchWithTimeout(`${SERVER_URL}/get_gps_status`);
+      const gpsData = await gpsResponse.json();
+      console.log(gpsData);
+      setGpsDevices(gpsData);
+
     } catch (error) {
-      setServerConnectionStatus(false);
+
     }
   };
 
+  // Call fetchStatus every seconds
   useEffect(() => {
     const interval = setInterval(() => {
       fetchStatus();
@@ -63,12 +69,15 @@ export default function App() {
     return () => clearInterval(interval);
   }, []);
 
+  // Get the GPS device assigned to the phone
+  const myGpsDevice = gpsDevices.find(device => device.device_id === GPS_DEVICE_ID);
+
   return (
     <View style={styles.container}>
       {/* Top Image */}
       <View>
         <ImageBackground source={require('./assets/bg1.jpeg')} style={styles.topBgImage} >
-          <Text style={styles.appTitle}>Animal Ditector</Text>
+          <Text style={styles.appTitle}>Animal Detector</Text>
         </ImageBackground>
       </View>
 
@@ -78,29 +87,24 @@ export default function App() {
         style={styles.bottomBgImage}
       >
         <View style={styles.overlay}>
-          {devices.filter( 
-            (device) => device.is_animal_detected
-          ).map((device, index) => (
-            <Device 
-              key={device.device_id}
-              deviceID={device.device_id}
-              isAnimalDetected={device.is_animal_detected}
-              location={device.location}
-              Distance={"10km"}
-            />
-          ))}
-
-          {devices.filter( 
-            (device) => !device.is_animal_detected
-          ).map((device, index) => (
-            <Device 
-              key={device.device_id}
-              deviceID={device.device_id}
-              isAnimalDetected={device.is_animal_detected}
-              location={device.location}
-              Distance={"10km"}
-            />
-          ))}
+          {animalDetectingDevices.map((device) => {
+            let distance = "Unknown";
+            if (myGpsDevice) {
+              distance = haversine(
+                myGpsDevice.latitude, myGpsDevice.longitude, 
+                device.latitude, device.longitude
+              ).toFixed(2) + " km";
+            }
+            return (
+              <Device 
+                key={device.device_id}
+                deviceID={device.device_id}
+                isAnimalDetected={device.is_animal_detected}
+                location={device.location}
+                Distance={distance}
+              />
+            );
+          })}
         </View>
       </ImageBackground>
     </View>
@@ -119,21 +123,20 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.3)',
     borderRadius: 10,
     paddingVertical: 8, 
-    paddingHorizontal: 20, // Adjust for better text wrapping
+    paddingHorizontal: 20, 
     color: 'white',
-    alignSelf: 'center', // Centers the title and shrinks background to fit
+    alignSelf: 'center',
   },
   topBgImage: {
     width: '100%',
-    height: 250, // Set a fixed height for the first image
+    height: 250, 
   },
   bottomBgImage: {
-    flex: 1, // Makes sure it fills the rest of the screen
+    flex: 1, 
     resizeMode: 'cover',
     width: '100%',
   },
   overlay: {
     alignItems: 'center',
   },
-
 });
