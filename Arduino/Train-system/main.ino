@@ -16,8 +16,10 @@ const char* SSID = "Redmi Note 11";
 const char* PASSWORD = "123456789";
 
 // Pins for GPS module
-static const int RXPin = 16, TXPin = 17;  // GPS TX → ESP32 RX (16), GPS RX → ESP32 TX (17)
-static const uint32_t GPSBaud = 9600;     // Default NEO-6M baud rate
+const int RXPin = 16, TXPin = 17;  // GPS TX → ESP32 RX (16), GPS RX → ESP32 TX (17)
+const uint32_t GPSBaud = 9600;     // Default NEO-6M baud rate
+
+const int LED_PIN = 32;
 
 // GPS module start
 HardwareSerial gpsSerial(2);  // Use UART2 for GPS
@@ -33,8 +35,8 @@ void sendStatus(){
 
   // Create json object
   String payLoad = "{\"device_id\":\"" + String(DEVICE_ID) + "\","
-              + "\"latitude\":\"" + String(LATITUDE) + "\","
-              + "\"longitude\":\"" + String(LONGITUDE) + "\"}";
+              + "\"latitude\":\"" + String(LATITUDE, 6) + "\","
+              + "\"longitude\":\"" + String(LONGITUDE, 6) + "\"}";
 
   int httpResponseCode = http.POST(payLoad);
 
@@ -54,6 +56,9 @@ void setup() {
   gpsSerial.begin(GPSBaud, SERIAL_8N1, RXPin, TXPin);  
   Serial.println("Waiting for GPS signal...");
 
+  // Configure lLED
+  pinMode(LED_PIN, OUTPUT);
+  
   // Connecting to WIFI
   WiFi.begin(SSID, PASSWORD);
   while (WiFi.status() != WL_CONNECTED) {
@@ -68,11 +73,19 @@ void loop() {
   while (gpsSerial.available()) {  // Read GPS data if available
       gps.encode(gpsSerial.read());
   }
-  Serial.println("GPS Conencted...!");
+  Serial.println("GPS connected...!");
 
   // Get latitude and longitude
   LATITUDE = gps.location.lat();
   LONGITUDE = gps.location.lng();
+
+  // Power LED if gps connected
+  if (!(LATITUDE == 0.000000 && LONGITUDE == 0.000000)){
+    digitalWrite(LED_PIN, HIGH);
+  }
+  else{
+    digitalWrite(LED_PIN, LOW);
+  }
   
   // Send data to server
   sendStatus();

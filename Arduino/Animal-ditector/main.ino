@@ -16,7 +16,8 @@ const char* PASSWORD = "123456789";
 const String SERVER = "http://192.168.34.185:5000";
 
 // Pins
-const int pressureSensorPin = 34;
+const int PRESSURE_SENSOR_PIN = 34;
+const int BUZZER_PIN = 32;
 
 // Animal detection status
 bool is_animal_detected = false;
@@ -32,8 +33,8 @@ void sendStatus(){
   // Create Json obj
   String payLoad = "{\"device_id\":\"" + String(DEVICE_ID) + "\","
               + "\"location\":\"" + String(LOCATION) + "\","
-              + "\"latitude\":\"" + String(LATITUDE) + "\","
-              + "\"longitude\":\"" + String(LONGITUDE) + "\","
+              + "\"latitude\":\"" + String(LATITUDE, 6) + "\","
+              + "\"longitude\":\"" + String(LONGITUDE, 6) + "\","
               + "\"is_animal_detected\":\"" + String(is_animal_detected) + "\"}";
 
   int httpResponseCode = http.POST(payLoad);
@@ -52,7 +53,10 @@ void sendStatus(){
 
 void setup() {
   Serial.begin(115200);  
-  pinMode(pressureSensorPin, INPUT);
+  
+  // Configure pins
+  pinMode(PRESSURE_SENSOR_PIN, INPUT);
+  pinMode(BUZZER_PIN, OUTPUT);
 
 
   // Connecting to WIFI
@@ -66,7 +70,7 @@ void setup() {
 
 void loop() {
   // Read sensor
-  int pressure = analogRead(pressureSensorPin);
+  int pressure = analogRead(PRESSURE_SENSOR_PIN);
   Serial.print("Pressure : ");
   Serial.println(pressure);
   // Map value to 0 to 100
@@ -78,10 +82,12 @@ void loop() {
   if (mapped_pressure > 40){
     is_animal_detected = true;
     animal_detected_for ++;
+    digitalWrite(BUZZER_PIN, HIGH);
   }
   else {
     is_animal_detected = false;
     animal_detected_for = 0;
+    digitalWrite(BUZZER_PIN, LOW);
   }
 
   // Send data to server
