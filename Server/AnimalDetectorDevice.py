@@ -27,6 +27,7 @@ class AnimalDetectorDevice:
                 "location": device.get_location(),
                 "is_animal_detected": device.get_detected(),
                 "is_active": device.get_active_status(),
+                "active_time": device.get_active_time()
             })
         # print(all_devices)
         return all_devices
@@ -39,7 +40,7 @@ class AnimalDetectorDevice:
         self._is_animal_detected = None
         self._is_active = True
         self._is_issue_detected = True
-        self._time = 0        
+        self._active_time = 0        
         AnimalDetectorDevice.device.append(self)
     
     def set_latitude(self, latitude):
@@ -53,14 +54,15 @@ class AnimalDetectorDevice:
 
     def set_animal_detected_status(self, status):
         self._is_animal_detected = status
-        
+    
+    def set_active_time(self, active_time):
+        self._active_time = active_time
+    
     def get_device_id(self):
         return self._device_id
     
     def get_detected(self):
         return self._is_animal_detected
-    
-    
     def get_active_status(self):
         return self._is_active
     
@@ -73,6 +75,9 @@ class AnimalDetectorDevice:
     def get_location(self):
         return self._location
 
+    def get_active_time(self):
+        return self._active_time
+    
     def set_location(self, location):
         self._location = location
     
@@ -83,6 +88,6 @@ class AnimalDetectorDevice:
         print("Latitude: ", self._latitude)
         print("Longitude: ", self._longitude)
         print("Animal Detected: ", self._is_animal_detected)
-        print("Time: ", self._time)
+        print("Active Time: ", self._active_time)
         print("======================================================================"
     """

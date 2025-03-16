@@ -9,11 +9,11 @@ const int DEVICE_ID = 2;
 double LATITUDE = 0;
 double LONGITUDE = 0;
 
-const String SERVER = "http://192.168.34.185:5000";
+const String SERVER = "http://xxx.xxx.xxx.xxx:5000";
 
 // WIFI INFO
-const char* SSID = "Redmi Note 11";
-const char* PASSWORD = "123456789";
+const char* SSID = "SSID";
+const char* PASSWORD = "********";
 
 // Pins for GPS module
 const int RXPin = 16, TXPin = 17;  // GPS TX → ESP32 RX (16), GPS RX → ESP32 TX (17)

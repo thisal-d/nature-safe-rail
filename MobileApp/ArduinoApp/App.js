@@ -11,7 +11,7 @@ import Device from './Device';
 
 // Configure device
 const GPS_DEVICE_ID = 2;
-const SERVER = "http://192.168.34.185";
+const SERVER = "http://xxx.xxx.xxx.xxx";
 const PORT_ADDRESS = ':5000';
 const SERVER_URL = SERVER + PORT_ADDRESS;
 
@@ -25,7 +25,7 @@ const haversine = (lat1, lon1, lat2, lon2) => {
               Math.cos(toRadians(lat1)) * Math.cos(toRadians(lat2)) * 
               Math.sin(dLon / 2) ** 2;
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    return R * c; // Distance in km
+    return R * c * 1000; // Distance in km
 };
 
 export default function App() {
@@ -93,7 +93,7 @@ export default function App() {
               distance = haversine(
                 myGpsDevice.latitude, myGpsDevice.longitude, 
                 device.latitude, device.longitude
-              ).toFixed(2) + " km";
+              ).toFixed(2) + " m";
             }
             return (
               <Device 
@@ -102,6 +102,7 @@ export default function App() {
                 isAnimalDetected={device.is_animal_detected}
                 location={device.location}
                 Distance={distance}
+                ActiveTime={device.active_time}
               />
             );
           })}

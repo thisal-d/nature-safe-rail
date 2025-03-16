@@ -9,7 +9,7 @@ import {
   TextInput
 } from 'react-native';
 
-function Device({ deviceID, isAnimalDetected, location, Distance }) {
+function Device({ deviceID, isAnimalDetected, location, Distance, ActiveTime}) {
     return (
         <View style={[styles.mainContainer, {borderColor: isAnimalDetected ? "rgba(255,0,0,0.8)" : "rgba(0,255,0,0.4)"}]}>
             {/* Left Section - Image */}
@@ -27,7 +27,10 @@ function Device({ deviceID, isAnimalDetected, location, Distance }) {
                 </Text>
             </View>
 
-            <Text style={{fontSize: isAnimalDetected ? 60 : 28, color: isAnimalDetected? "#ff0000": "#00ff00", fontWeight: 'bold' }}>{(isAnimalDetected? "⚠" : "✅")}</Text>
+            <View>
+                <Text style={{fontSize: isAnimalDetected ? 60 : 28, color: isAnimalDetected? "#ff0000": "#00ff00", fontWeight: 'bold' }}>{(isAnimalDetected? "⚠" : "✅")}</Text>
+                <Text style={{fontSize: 20, color: isAnimalDetected? "#ff0000": "#404040", fontWeight: 'bold' }}>{ActiveTime} s</Text>
+            </View>
         </View>
     );
 }

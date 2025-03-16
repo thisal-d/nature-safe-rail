@@ -9,11 +9,11 @@ const double LATITUDE = 8.33183050;
 const double LONGITUDE = 80.40290170;
 
 // WIFI INFO
-const char* SSID = "Redmi Note 11";
-const char* PASSWORD = "123456789";
+const char* SSID = "SSID";
+const char* PASSWORD = "********";
 
 // SERVER INFO
-const String SERVER = "http://192.168.34.185:5000";
+const String SERVER = "http://xxx.xxx.xxx.xxx:5000";
 
 // Pins
 const int PRESSURE_SENSOR_PIN = 34;
@@ -21,7 +21,7 @@ const int BUZZER_PIN = 32;
 
 // Animal detection status
 bool is_animal_detected = false;
-long long int animal_detected_for = 0;
+long long int active_time = 0;
 
 
 void sendStatus(){
@@ -35,6 +35,7 @@ void sendStatus(){
               + "\"location\":\"" + String(LOCATION) + "\","
               + "\"latitude\":\"" + String(LATITUDE, 6) + "\","
               + "\"longitude\":\"" + String(LONGITUDE, 6) + "\","
+              + "\"active_time\":\"" + String(active_time) + "\","
               + "\"is_animal_detected\":\"" + String(is_animal_detected) + "\"}";
 
   int httpResponseCode = http.POST(payLoad);
@@ -81,12 +82,12 @@ void loop() {
   // If pressure more than 40% then it mean there is an animal
   if (mapped_pressure > 40){
     is_animal_detected = true;
-    animal_detected_for ++;
+    active_time ++;
     digitalWrite(BUZZER_PIN, HIGH);
   }
   else {
     is_animal_detected = false;
-    animal_detected_for = 0;
+    active_time = 0;
     digitalWrite(BUZZER_PIN, LOW);
   }
 

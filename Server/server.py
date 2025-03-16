@@ -5,7 +5,7 @@ from TrainGpsDevice import TrainGpsDevice
 from flask_cors import CORS
 
 # CONFIGURE SERVER IP ADDRESS and PORT ADDRESS
-IP_ADDRESS = "192.168.34.185" 
+IP_ADDRESS = "xxx.xxx.xxx.xxx" 
 PORT = 5000
 
 app = Flask(__name__)
@@ -20,7 +20,6 @@ train_gps = []
 # Add two animal detector devices
 animal_detectors.append(AnimalDetectorDevice(id=3, location="Katharagama", longitude=81.3353611, latitude=6.4169744))
 animal_detectors.append(AnimalDetectorDevice(id=4, location="Panadura", longitude=79.94, latitude=6.713))
-
 # API to receive status updates from devices
 @app.route('/update_animal_detector_device_status', methods=['POST'])
 def update_animal_detecor_status():
@@ -35,7 +34,7 @@ def update_animal_detecor_status():
     latitude = float(data.get('latitude'))
     longitude = float(data.get('longitude'))
     location = data.get('location')
-    
+    active_time = int(data.get('active_time'))
     # print("Device ID:", device_id, " | Animal detected:", is_animal_detected, " | Latitude:", latitude, " | Longitude:", longitude, " | Location:", location)
 
     # Check device is already exist
@@ -46,6 +45,7 @@ def update_animal_detecor_status():
     # Update animal detected device data
     device.set_animal_detected_status(is_animal_detected)
     device.set_location(location)
+    device.set_active_time(active_time)
     device.set_latitude(latitude)
     device.set_longitude(longitude)
     # print(AnimalDetectorDevice.get_all_devices())
