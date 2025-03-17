@@ -63,6 +63,7 @@ class AnimalDetectorDevice:
     
     def get_detected(self):
         return self._is_animal_detected
+    
     def get_active_status(self):
         return self._is_active
     

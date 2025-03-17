@@ -11,7 +11,7 @@ import Device from './Device';
 
 // Configure device
 const GPS_DEVICE_ID = 2;
-const SERVER = "http://xxx.xxx.xxx.xxx";
+const SERVER = "http://192.168.39.185";
 const PORT_ADDRESS = ':5000';
 const SERVER_URL = SERVER + PORT_ADDRESS;
 
@@ -47,17 +47,17 @@ export default function App() {
       // Get animal detecting device data
       const animalResponse = await fetchWithTimeout(`${SERVER_URL}/get_animal_detecting_status`);
       const animalData = await animalResponse.json();
-      console.log(animalData);
+      // console.log(animalData);
       setAnimalDetectingDevices(animalData);
 
       // Get gps device data
       const gpsResponse = await fetchWithTimeout(`${SERVER_URL}/get_gps_status`);
       const gpsData = await gpsResponse.json();
-      console.log(gpsData);
+      // console.log(gpsData);
       setGpsDevices(gpsData);
 
     } catch (error) {
-
+      console.log(error);
     }
   };
 
