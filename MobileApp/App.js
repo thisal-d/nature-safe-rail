@@ -10,8 +10,8 @@ import {
 import Device from './Device';
 
 // Configure device
-const GPS_DEVICE_ID = 2;
-const SERVER = "http://192.168.39.185";
+const GPS_DEVICE_ID = 0; // Replace with your Train System id
+const SERVER = "http://XXX.XXX.XXX.XXX"; // Replace with your ip address
 const PORT_ADDRESS = ':5000';
 const SERVER_URL = SERVER + PORT_ADDRESS;
 
@@ -34,7 +34,7 @@ export default function App() {
   const [serverConnectionStatus, setServerConnectionStatus] = useState(null);
 
   // Fetch data with timeout
-  const fetchWithTimeout = (url, options, timeout = 2000) => {
+  const fetchWithTimeout = (url, options, timeout = 4000) => {
     return Promise.race([
       fetch(url, options),
       new Promise((_, reject) => setTimeout(() => reject(new Error("Request timed out")), timeout))

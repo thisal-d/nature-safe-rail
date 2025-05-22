@@ -5,7 +5,7 @@ from TrainGpsDevice import TrainGpsDevice
 from flask_cors import CORS
 
 # CONFIGURE SERVER IP ADDRESS and PORT ADDRESS
-IP_ADDRESS = "192.168.39.185" 
+IP_ADDRESS = "XXX.XXX.XXX.XXX" # Replace with your ip address
 PORT = 5000
 
 app = Flask(__name__)

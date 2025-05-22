@@ -9,11 +9,11 @@ const double LATITUDE = 8.33183050;
 const double LONGITUDE = 80.40290170;
 
 // WIFI INFO
-const char* SSID = "SSID";
-const char* PASSWORD = "********";
+const char* SSID = "SSID"; // Replace with your ssid
+const char* PASSWORD = "********"; // Replace with your wifi password
 
 // SERVER INFO
-const String SERVER = "http://xxx.xxx.xxx.xxx:5000";
+const String SERVER = "http://XXX.XXX.XXX.XXX:5000"; // Replace with your ip addess
 
 // Pins
 const int PRESSURE_SENSOR_PIN = 34;

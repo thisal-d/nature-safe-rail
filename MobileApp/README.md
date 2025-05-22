@@ -5,7 +5,7 @@ This folder contains the source code for the mobile app. The app provides an int
 
 ## Screenshot
 
-<img src="../README src/app.png" style="height:700px">
+<img src="../README-src/server.png" style="height:500px">
 
 ## Overview
 
