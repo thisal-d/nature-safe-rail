@@ -2,6 +2,11 @@
 
 A Flask-based server application for monitoring animal detection devices and train GPS locations to help prevent wildlife-train collisions.
 
+
+## View
+
+<img src="../README-src/server.png" style="height:500px">
+
 ## Overview
 
 This system consists of a server that receives and manages data from two types of IoT devices:
