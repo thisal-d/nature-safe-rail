@@ -11,18 +11,12 @@ This folder contains the source code for the mobile app. The app provides an int
 
 The mobile app is responsible for:
 
-- Displaying data from the system, such as water level and water quality.
-- Sending control commands to the backend server (e.g., turning on/off the water pump, adjusting settings).
-- Interacting with the backend server via Wi-Fi to update and retrieve data.
+- Displaying areas status and distance to area.
 
 The mobile app is built using **React Native**, which allows for building cross-platform applications.
 
-
 ## Features
-- **Water Level Monitoring:** Displays water level data from sensors in the tank.
-- **Water Quality Monitoring:** Shows water quality information, such as TDS (Total Dissolved Solids), based on sensor readings.
-- **Automatic Data Updates:** Data is updated automatically at regular intervals without requiring user intervention.
-- **User-Friendly Interface:** Simple and easy-to-use design for viewing and controlling the system.
+- **See warning from specific areas:** 
 
 ## Setup
 
@@ -78,11 +72,3 @@ To run the app on your local machine, you can use the following command:
     ```bash
     react-native run-ios
     ```
-
-### 4. Testing the App
-
-You can interact with the app on the emulator or on a physical device by:
-
-- Monitoring system data (e.g., water level and water quality).
-- Sending commands to control the system (e.g., turning on the pump).
-
