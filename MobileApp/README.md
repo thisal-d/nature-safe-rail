@@ -1,74 +1,102 @@
-# Mobile App
+# NatureSafe-Rail Mobile App
 
-This folder contains the source code for the mobile app. The app provides an interface for users to monitor and control the system remotely.
+This folder contains the source code for the NatureSafe-Rail mobile application. The app provides a real-time interface for users to monitor the status of animal detector devices deployed along railway tracks and view the proximity of trains to these areas. It is built using **React Native** for cross-platform support (Android and iOS).
 
-
-## View
-
-<img src="../README-src/app.png" style="height:500px">
+---
 
 ## Overview
 
 The mobile app is responsible for:
+- Displaying the status of animal detector areas (e.g., whether an animal has been detected in a monitored area).
+- Showing the distance between the current train (user's device) and each monitored area.
+- Providing warning signals if animals are detected near the railway.
 
-- Displaying areas status and distance to area.
-
-The mobile app is built using **React Native**, which allows for building cross-platform applications.
+---
 
 ## Features
-- **See warning from specific areas:** 
+
+- **Area Status Monitoring:** View a live list of animal detector device statuses, including location and whether an animal is currently detected.
+- **Distance Calculation:** For each monitored area, see the distance from the current train location (via GPS device data).
+- **Visual Warnings:** Receive clear visual cues and warnings for areas where animals have been detected.
+- **Automatic Data Refresh:** The app fetches updates from the backend server every second for real-time monitoring.
+- **User-Friendly Interface:** Modern, intuitive design for quick status checks and alerts.
+
+---
+
+## Screenshots
+
+<img src="../README-src/app.png" style="height:600px">
+
+---
 
 ## Setup
 
 ### 1. Install Dependencies
 
-Before you can run the app, you'll need to install the necessary dependencies:
+Make sure you have **Node.js** installed. Then:
 
-1. Make sure you have **Node.js** installed. You can download it from [here](https://nodejs.org/).
-2. Install **React Native CLI** by running the following command in your terminal:
-
-    ```bash
-    npm install -g react-native-cli
-    ```
-
-3. Install the required dependencies for the mobile app:
-
-    ```bash
-    npm install
-    ```
+```bash
+npm install -g react-native-cli
+cd MobileApp
+npm install
+```
 
 ### 2. Configuring the Server IP
-To configure the server IP for the mobile app, you'll need to set the values in the `App.js` file. Follow the steps below:
 
-- Open the [`App.js`](./ArduinoApp/App.js) file in your project.
-- Update the `SERVER` constant with the IP address of the [`Flask server`](../HttpServer/):
-    ```javascript 
-    const SERVER = "http://xxx.xxx.xxx.xxx";  // Replace with your server IP address
-    ```
-- The PORT_ADDRESS should also be configured to match the port the Flask server is running on:\
-    ```javascript
-    const PORT_ADDRESS = ':5000';  // Default Flask port
-    ```
-- Make sure your server and mobile device (or emulator) are on the same Wi-Fi network to establish communication.
-  
-After these changes, the mobile app will communicate with the server using the provided IP address and port
+Edit the [`App.js`](./App.js) file and set the IP address of your Flask backend server:
+
+```javascript
+const GPS_DEVICE_ID = 0; // Replace with your Train system device ID
+const SERVER = "http://YOUR_SERVER_IP"; // Replace with your server IP address
+const PORT_ADDRESS = ':5000';           // Default Flask port (change if needed)
+```
+
+Ensure your mobile device/emulator and the backend server are on the same Wi-Fi network.
+
+---
 
 ### 3. Running the App
 
-To run the app on your local machine, you can use the following command:
+- **For Android:**  
+  Ensure Android Studio and an emulator or device are set up, then run:
+  ```bash
+  react-native run-android
+  ```
 
-- **For Android**:
+- **For iOS (on macOS):**
+  ```bash
+  react-native run-ios
+  ```
 
-    Make sure you have Android Studio and an emulator set up. Then, run:
+---
 
-    ```bash
-    react-native run-android
-    ```
+## App Structure
 
-- **For iOS**:
+- `App.js` – Main application logic: fetches device statuses, calculates distances, and manages UI updates.
+- `Device.js` – Renders each animal detector device and its status.
+- `assets/` – Contains images and icons used in the app.
 
-    If you're on macOS, you can run the app on an iOS simulator by using:
+---
 
-    ```bash
-    react-native run-ios
-    ```
+## How It Works
+
+- The app queries the backend Flask server for:
+  - Animal detector device statuses (`/get_animal_detecting_status`)
+  - Train GPS device statuses (`/get_gps_status`)
+- Calculates the distance between the train and each animal detector area using the Haversine formula.
+- Displays a list of all monitored areas, their status (safe/detected), and the distance from the train.
+- Provides a prominent warning icon and color when animals are detected.
+
+---
+
+## License
+
+This project is licensed under the MIT License.  
+See [LICENSE](../LICENSE) for more information.
+
+---
+
+## Support & Contribution
+
+Feel free to fork the repository and submit pull requests!  
+For questions, please open an issue.

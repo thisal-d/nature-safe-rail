@@ -1,6 +1,6 @@
 # NatureSafe-Rail
 
-NatureSafe-Rail is an integrated IoT-based system designed to enhance railway safety by monitoring animal presence near railway tracks and tracking train locations in real time. The project combines hardware, a backend server, and a mobile application to help prevent wildlife-train collisions and support remote monitoring and control.
+NatureSafe-Rail is an integrated IoT-based system designed to enhance railway safety by monitoring animal presence near railway tracks and tracking train locations in real time. The project combines hardware, a backend server, and a mobile application to help prevent wildlife-train collisions and support remote monitoring.
 
 ---
 
@@ -22,7 +22,6 @@ NatureSafe-Rail is an integrated IoT-based system designed to enhance railway sa
   - [API Endpoints](#api-endpoints)
   - [License](#license)
   - [Contributing](#contributing)
-  - [Acknowledgments](#acknowledgments)
 
 ---
 
@@ -31,9 +30,13 @@ NatureSafe-Rail is an integrated IoT-based system designed to enhance railway sa
 NatureSafe-Rail is composed of:
 
 - **Animal Detector Devices**: IoT devices deployed along railway tracks to detect the presence of animals using sensors.
+    - [Animal Detector Firmware ↗](./Arduino/Animal-Ditector-Device/README.md)
 - **Train GPS Devices**: IoT devices mounted on trains to provide real-time GPS tracking.
+    - [Train GPS Device Firmware ↗](./Arduino/Train-GPS-Device/README.md)
 - **Backend Server**: A Flask-based server that collects, processes, and serves data from the devices via a RESTful API.
-- **Mobile Application**: A React Native app for monitoring system data and sending control commands.
+    - [Server Documentation ↗](./Server/README.md)
+- **Mobile Application**: A React Native app for monitoring system data and displaying warnings and area statuses.
+    - [Mobile App Documentation ↗](./MobileApp/README.md)
 
 The goal is to provide early warnings to train operators and authorities, reducing the risk of wildlife collisions and supporting sustainable railway operations.
 
@@ -43,8 +46,10 @@ The goal is to provide early warnings to train operators and authorities, reduci
 
 ### 1. Arduino Firmware
 
-- **Animal Detector**: Monitors and reports animal presence and device status to the backend server.
-- **Train GPS**: Continuously updates the train's GPS coordinates to the server.
+- **Animal Detector**: Monitors and reports animal presence and device status to the backend server.  
+  [See Animal Detector README](./Arduino/Animal-Ditector-Device/README.md)
+- **Train GPS**: Continuously updates the train's GPS coordinates to the server.  
+  [See Train GPS Device README](./Arduino/Train-GPS-Device/README.md)
 
 ### 2. Server (`/Server`)
 
@@ -52,12 +57,16 @@ The goal is to provide early warnings to train operators and authorities, reduci
 - Handles device data, provides RESTful APIs, and supports CORS.
 - Stores and processes statuses from both animal detectors and GPS trackers.
 
+  [See Server README](./Server/README.md)
+
 ### 3. Mobile Application (`/MobileApp`)
 
 - Built with React Native (cross-platform).
 - Provides a dashboard for real-time monitoring.
-- Allows users to view water level, water quality, and system statuses.
-- Enables sending control commands (e.g., activate/deactivate devices).
+- Allows users to view the status of animal detector areas and the distance from the train to each area.
+- Displays warnings for specific areas if animals are detected.
+
+  [See Mobile App README](./MobileApp/README.md)
 
 ---
 
@@ -65,7 +74,7 @@ The goal is to provide early warnings to train operators and authorities, reduci
 
 - 🦌 **Animal Detection**: Real-time sensing and reporting of animals near tracks.
 - 🚄 **Train Tracking**: Real-time GPS tracking of trains.
-- 📱 **Mobile Monitoring**: User-friendly mobile app for remote observation and control.
+- 📱 **Mobile Monitoring**: User-friendly mobile app for remote observation and warning display (no water quality or water level).
 - 🔌 **RESTful API**: Easy integration and extension via documented endpoints.
 - ⚡ **Cross-Platform**: Supports both Android and iOS for mobile access.
 - 🔒 **Open Source**: Licensed under MIT.
@@ -117,7 +126,12 @@ The goal is to provide early warnings to train operators and authorities, reduci
    ```bash
    npm install
    ```
-3. Configure the server IP in the app settings.
+3. Configure the server IP in the `App.js` file:
+   ```javascript
+   const SERVER = "http://YOUR_SERVER_IP";
+   const PORT_ADDRESS = ':5000';
+   ```
+   Make sure your mobile device/emulator and the server are on the same Wi-Fi network.
 4. Run the app:
    - For Android:
      ```bash
@@ -132,6 +146,8 @@ The goal is to provide early warnings to train operators and authorities, reduci
 
 - The `/Arduino` directory contains sketches for both Animal Detector and Train GPS devices.
 - Configure Wi-Fi credentials and server IP in the `.ino` files before uploading to your hardware.
+- [Animal Detector README](./Arduino/Animal-Ditector-Device/README.md)
+- [Train Device README](./Arduino/Train-GPS-Device/README.md)
 
 ---
 
@@ -151,7 +167,7 @@ The Flask server exposes endpoints for:
   - `GET /get_gps_status`  
     Retrieve all train GPS statuses.
 
-See [Server/README.md](Server/README.md) for detailed API documentation and data formats.
+See [Server/README.md](./Server/README.md) for detailed API documentation and data formats.
 
 ---
 
@@ -168,9 +184,3 @@ This project is licensed under the [MIT License](LICENSE).
 3. Commit your changes (`git commit -m 'Add some amazing feature'`).
 4. Push to the branch (`git push origin feature/amazing-feature`).
 5. Open a Pull Request.
-
----
-
-## Acknowledgments
-
-Special thanks to all contributors to the NatureSafe-Rail project.

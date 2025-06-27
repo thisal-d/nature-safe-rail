@@ -10,7 +10,7 @@ import {
 import Device from './Device';
 
 // Configure device
-const GPS_DEVICE_ID = 0; // Replace with your Train System id
+const GPS_DEVICE_ID = 0; // Replace with your Train system device ID
 const SERVER = "http://XXX.XXX.XXX.XXX"; // Replace with your ip address
 const PORT_ADDRESS = ':5000';
 const SERVER_URL = SERVER + PORT_ADDRESS;
