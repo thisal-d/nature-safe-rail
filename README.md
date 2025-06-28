@@ -1,6 +1,6 @@
-# NatureSafe-Rail
+# NatureSafe Rail
 
-NatureSafe-Rail is an integrated IoT-based system designed to enhance railway safety by monitoring animal presence near railway tracks and tracking train locations in real time. The project combines hardware, a backend server, and a mobile application to help prevent wildlife-train collisions and support remote monitoring.
+NatureSafe Rail is an integrated IoT-based system designed to enhance railway safety by monitoring animal presence near railway tracks and tracking train locations in real time. The project combines hardware, a backend server, and a mobile application to help prevent wildlife-train collisions and support remote monitoring.
 
 ---
 
