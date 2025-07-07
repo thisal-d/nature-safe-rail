@@ -40,8 +40,8 @@ The server provides APIs to update device statuses and retrieve information abou
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/yourusername/animal-train-detection-system.git
-   cd animal-train-detection-system
+   git clone https://github.com/thisal-d/nature-safe-rail.git
+   cd nature-safe-rail
    ```
 
 2. Install dependencies:
